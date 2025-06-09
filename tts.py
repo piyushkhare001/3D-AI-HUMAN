@@ -5,7 +5,6 @@ from gtts import gTTS
 from pydub import AudioSegment
 from chatbot import generate_answer_as_malla_reddy
 
-
 app = FastAPI()
 
 
@@ -16,7 +15,7 @@ def speed_change(sound, speed=1.5):
     return sound_with_altered_frame_rate.set_frame_rate(sound.frame_rate)
 
 
-def generate_and_modify_voice(text, lang='te', pitch_shift_semitones=-10, speed=1.5):
+def generate_and_modify_voice(text, lang='te', pitch_shift_semitones=-15, speed=1.5):
     mp3_fp = BytesIO()
     tts = gTTS(text=text, lang=lang)
     tts.write_to_fp(mp3_fp)
@@ -41,6 +40,11 @@ async def tts_endpoint(request: Request):
     text = data.get("text", "")
     audio_fp = generate_and_modify_voice(text)
     return StreamingResponse(audio_fp, media_type="audio/mpeg")
+
+
+@app.get("/")
+async def root():
+    return {"message": "FastAPI is running!"}
 
 
 @app.post("/ask")

@@ -5,7 +5,7 @@ import pickle
 from sentence_transformers import SentenceTransformer, util
 import sys
 # -- CONFIG --
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "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"
 MODEL_NAME = "mistralai/mixtral-8x7b-instruct"
 HEADERS = {
     "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -83,9 +83,15 @@ def generate_answer_as_malla_reddy(query):
 
     try:
         response = requests.post(API_URL, headers=HEADERS, json=payload, timeout=30)
-        return response.json()['choices'][0]['message']['content'].strip()
+        data = response.json()
+
+        if 'choices' in data:
+            return data['choices'][0]['message']['content'].strip()
+        else:
+            print("API ERROR:", data)
+            return "Sorry, no valid response from the model."
     except Exception as e:
-        print(f"API Error: {e}")
+        print(f"API Exception: {e}")
         return "Sorry, I couldn't process your request."
 
 
