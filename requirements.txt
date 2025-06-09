@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+gtts
+pydub
+requests
+sentence-transformers
+torch
+numpy
