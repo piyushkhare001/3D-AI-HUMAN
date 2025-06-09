@@ -3,7 +3,7 @@ from fastapi.responses import StreamingResponse
 from io import BytesIO
 from gtts import gTTS
 from pydub import AudioSegment
-from app.chatbot import generate_answer_as_malla_reddy
+from chatbot import generate_answer_as_malla_reddy
 
 
 app = FastAPI()
